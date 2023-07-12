@@ -36,7 +36,27 @@ public class Cama {
         return posicao;
     }
 
-    public String getDescricao() {
+    public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setCodigoCama(String codigoCama) {
+		this.codigoCama = codigoCama;
+	}
+
+	public void setEhBeliche(boolean ehBeliche) {
+		this.ehBeliche = ehBeliche;
+	}
+
+	public void setPosicao(String posicao) {
+		this.posicao = posicao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public String getDescricao() {
         return descricao;
     }
 
