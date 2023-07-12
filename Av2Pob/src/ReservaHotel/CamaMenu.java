@@ -1,5 +1,7 @@
 package ReservaHotel;
+
 import java.util.Scanner;
+import java.util.List;
 
 public class CamaMenu {
     private static Scanner scanner = new Scanner(System.in);
@@ -7,7 +9,7 @@ public class CamaMenu {
     public static void exibirMenuCama() {
         boolean sair = false;
         while (!sair) {
-            System.out.println("GERENCIAR CAMAS");
+            System.out.println("\n--GERENCIAR CAMAS--");
             System.out.println("1. Incluir Cama");
             System.out.println("2. Alterar Cama");
             System.out.println("3. Excluir Cama");
@@ -41,7 +43,7 @@ public class CamaMenu {
     }
 
     public static void incluirCama() {
-        System.out.println("INSERIR DADOS DA CAMA");
+        System.out.println("\nINSERIR DADOS DA CAMA");
 
         System.out.print("ID: ");
         int id = scanner.nextInt();
@@ -63,22 +65,22 @@ public class CamaMenu {
         Cama cama = new Cama(id, codigoCama, ehBeliche, posicao, descricao);
         cama.salvar();
 
-        System.out.println("Cama cadastrada com sucesso!");
+        System.out.println("\nCama cadastrada com sucesso!");
     }
 
     public static void alterarCama() {
-        System.out.print("ID da Cama a ser alterada: ");
+        System.out.print("\nID da Cama a ser alterada: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
         Cama cama = encontrarCamaPorId(id);
 
         if (cama == null) {
-            System.out.println("Cama não encontrada.");
+            System.out.println("\nCama não encontrada.");
             return;
         }
 
-        System.out.println("ALTERAR DADOS DA CAMA");
+        System.out.println("\nALTERAR DADOS DA CAMA");
 
         System.out.print("Código da Cama (" + cama.getCodigoCama() + "): ");
         String codigoCama = scanner.nextLine();
@@ -105,18 +107,18 @@ public class CamaMenu {
             cama.setDescricao(descricao);
         }
 
-        System.out.println("Dados da cama alterados com sucesso!");
+        System.out.println("\nDados da cama alterados com sucesso!");
     }
 
     public static void excluirCama() {
-        System.out.print("ID da Cama a ser excluída: ");
+        System.out.print("\nID da Cama a ser excluída: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
         Cama cama = encontrarCamaPorId(id);
 
         if (cama == null) {
-            System.out.println("Cama não encontrada.");
+            System.out.println("\nCama não encontrada.");
             return;
         }
 
@@ -125,9 +127,9 @@ public class CamaMenu {
 
         if (confirmacao.equalsIgnoreCase("S")) {
             // Remover a cama do arquivo ou banco de dados
-            System.out.println("Cama removida com sucesso!");
+            System.out.println("\nCama removida com sucesso!");
         } else {
-            System.out.println("Operação de exclusão cancelada.");
+            System.out.println("\nOperação de exclusão cancelada.");
         }
     }
 
