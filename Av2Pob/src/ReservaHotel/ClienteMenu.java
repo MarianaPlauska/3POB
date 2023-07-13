@@ -3,19 +3,25 @@ package ReservaHotel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class ClienteMenu {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void exibirMenuCliente() {
-        boolean sair = false;
-        while (!sair) {
-            System.out.println("GERENCIAR CLIENTES");
+    	boolean sair = false;
+    	
+        while (!sair) 
+        {
+            System.out.println("\n--GERENCIAR CLIENTES--");
             System.out.println("1. Incluir Cliente");
             System.out.println("2. Alterar Cliente");
             System.out.println("3. Excluir Cliente");
             System.out.println("4. Listar Clientes");
             System.out.println("5. Voltar");
+            System.out.println("6. Sair");
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
@@ -35,13 +41,18 @@ public class ClienteMenu {
                     Cliente.listarClientes();
                     break;
                 case 5:
-                    sair = true;
+                    return; 
+                case 6:
+                    sair = true; 
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
         }
+        System.out.println("Encerrando o programa..."); // Mensagem exibida ao sair do loop
+        System.exit(0);
     }
+
 
     public static void incluirCliente() {
         System.out.println("\nINSERIR DADOS DO CLIENTE");
@@ -78,97 +89,138 @@ public class ClienteMenu {
         Cliente cliente = new Cliente(id, nome, endereco, postalCod, pais, cpf, passaporte, email, dataNasc);
         cliente.salvar();
 
-        System.out.println("Cliente cadastrado com sucesso!");
+        System.out.println("\nCliente cadastrado com sucesso!");
     }
 
     public static void alterarCliente() {
-        System.out.print("ID do Cliente a ser alterado: ");
+        System.out.print("\nID do Cliente a ser alterado: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
         Cliente cliente = encontrarClientePorId(id);
 
-        if (cliente == null) {
-            System.out.println("Cliente não encontrado.");
+        if (cliente == null) 
+        {
+            System.out.println("\nCliente não encontrado.");
             return;
         }
 
-        System.out.println("ALTERAR DADOS DO CLIENTE");
+        System.out.println("\nALTERAR DADOS DO CLIENTE");
 
         System.out.print("Nome (" + cliente.getNome() + "): ");
         String nome = scanner.nextLine();
-        if (!nome.isEmpty()) {
+        
+        if (!nome.isEmpty())
+        {
             cliente.setNome(nome);
         }
 
         System.out.print("Endereço (" + cliente.getEndereco() + "): ");
         String endereco = scanner.nextLine();
-        if (!endereco.isEmpty()) {
+        
+        if (!endereco.isEmpty()) 
+        {
             cliente.setEndereco(endereco);
         }
 
         System.out.print("Código Postal (" + cliente.getPostalCod() + "): ");
         String postalCod = scanner.nextLine();
-        if (!postalCod.isEmpty()) {
+        
+        if (!postalCod.isEmpty())
+        {
             cliente.setPostalCod(postalCod);
         }
 
         System.out.print("País (" + cliente.getPais() + "): ");
         String pais = scanner.nextLine();
-        if (!pais.isEmpty()) {
+        
+        if (!pais.isEmpty()) 
+        {
             cliente.setPais(pais);
         }
 
         System.out.print("CPF (" + cliente.getCpf() + "): ");
         String cpf = scanner.nextLine();
-        if (!cpf.isEmpty()) {
+        
+        if (!cpf.isEmpty()) 
+        {
             cliente.setCpf(cpf);
         }
 
         System.out.print("Passaporte (" + cliente.getPassaporte() + "): ");
         String passaporte = scanner.nextLine();
-        if (!passaporte.isEmpty()) {
+        
+        if (!passaporte.isEmpty()) 
+        {
             cliente.setPassaporte(passaporte);
         }
 
         System.out.print("E-mail (" + cliente.getEmail() + "): ");
         String email = scanner.nextLine();
-        if (!email.isEmpty()) {
+        
+        if (!email.isEmpty()) 
+        {
             cliente.setEmail(email);
         }
 
         System.out.print("Data de Nascimento (" + cliente.getDataNasc() + ", formato dd/MM/yyyy): ");
         String dataNascInput = scanner.nextLine();
-        if (!dataNascInput.isEmpty()) {
+        
+        if (!dataNascInput.isEmpty()) 
+        {
             LocalDate dataNasc = LocalDate.parse(dataNascInput, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             cliente.setDataNasc(dataNasc);
         }
 
-        System.out.println("Dados do cliente alterados com sucesso!");
+        System.out.println("\nDados do cliente alterados com sucesso!");
     }
 
     public static void excluirCliente() {
-        System.out.print("ID do Cliente a ser excluído: ");
+        System.out.print("\nID do Cliente a ser excluído: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
-        Cliente cliente = encontrarClientePorId(id);
+        List<Cliente> clientes = Cliente.lerClientes();
 
-        if (cliente == null) {
-            System.out.println("Cliente não encontrado.");
+        boolean clienteEncontrado = false;
+        
+        for (Cliente cliente : clientes) 
+        {
+            if (cliente.getId() == id) 
+            {
+                clienteEncontrado = true;
+                break;
+            }
+        }
+
+        if (clienteEncontrado)
+        {
+            clientes.removeIf(cliente -> cliente.getId() == id);
+
+            try (FileWriter writer = new FileWriter("cliente.txt")) 
+            {
+                for (Cliente c : clientes) 
+                {
+                    writer.write(c.toString() + "\n");
+                }
+            } 
+            catch (IOException e) 
+            {
+                System.out.println("Erro ao excluir o cliente do arquivo.");
+                return;
+            }
+
+            System.out.println("\nCliente removido com sucesso!");
+        } 
+        else 
+        {
+            System.out.println("\nCliente não encontrado.");
             return;
         }
-
-        System.out.println("Tem certeza de que deseja excluir o cliente? (S/N)");
-        String confirmacao = scanner.nextLine();
-
-        if (confirmacao.equalsIgnoreCase("S")) {
-            // Remover o cliente do arquivo ou banco de dados
-            System.out.println("Cliente removido com sucesso!");
-        } else {
-            System.out.println("Operação de exclusão cancelada.");
-        }
     }
+
+
+
 
     public static Cliente encontrarClientePorId(int id) {
         List<Cliente> clientes = Cliente.lerClientes();
