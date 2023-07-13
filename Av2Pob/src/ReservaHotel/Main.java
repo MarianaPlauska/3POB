@@ -8,7 +8,7 @@ public class Main {
 
         boolean sair = false;
         while (!sair) {
-            System.out.println("MENU PRINCIPAL");
+            System.out.println("\nMENU PRINCIPAL");
             System.out.println("1. Gerenciar Clientes");
             System.out.println("2. Gerenciar Quartos");
             System.out.println("3. Gerenciar Camas");
