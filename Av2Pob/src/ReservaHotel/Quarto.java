@@ -20,7 +20,27 @@ public class Quarto {
         this.descricao = descricao;
     }
 
-    public int getId() {
+    public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setNomeQuarto(String nomeQuarto) {
+		this.nomeQuarto = nomeQuarto;
+	}
+
+	public void setQtdeCamas(int qtdeCamas) {
+		this.qtdeCamas = qtdeCamas;
+	}
+
+	public void setTemBanheiro(boolean temBanheiro) {
+		this.temBanheiro = temBanheiro;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public int getId() {
         return id;
     }
 
@@ -41,12 +61,15 @@ public class Quarto {
     }
 
     public void salvar() {
-        try {
+        try 
+        {
             FileWriter fw = new FileWriter("quartos.txt", true);
             PrintWriter pw = new PrintWriter(fw);
             pw.println(id + "," + nomeQuarto + "," + qtdeCamas + "," + temBanheiro + "," + descricao);
             pw.close();
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             System.out.println("Erro ao salvar o quarto no arquivo");
         }
     }
@@ -54,12 +77,16 @@ public class Quarto {
     public static List<Quarto> lerQuartos() {
         List<Quarto> quartos = new ArrayList<>();
 
-        try {
+        try 
+        {
             File arquivo = new File("quartos.txt");
 
-            if (arquivo.exists()) {
+            if (arquivo.exists()) 
+            {
                 Scanner scanner = new Scanner(arquivo);
-                while (scanner.hasNextLine()) {
+                
+                while (scanner.hasNextLine()) 
+                {
                     String linha = scanner.nextLine();
                     String[] dados = linha.split(",");
                     int id = Integer.parseInt(dados[0]);
@@ -73,7 +100,9 @@ public class Quarto {
                 }
                 scanner.close();
             }
-        } catch (IOException e) {
+        } 
+        catch (IOException e)
+        {
             System.out.println("Erro ao ler o arquivo de quartos");
         }
 
@@ -83,11 +112,15 @@ public class Quarto {
     public static void listarQuartos() {
         List<Quarto> quartos = lerQuartos();
 
-        if (quartos.isEmpty()) {
+        if (quartos.isEmpty()) 
+        {
             System.out.println("Não há quartos cadastrados");
-        } else {
+        } 
+        else 
+        {
             System.out.println("LISTA DE QUARTOS");
-            for (Quarto quarto : quartos) {
+            for (Quarto quarto : quartos)
+            {
                 System.out.println("ID: " + quarto.getId());
                 System.out.println("Nome do Quarto: " + quarto.getNomeQuarto());
                 System.out.println("Quantidade de Camas: " + quarto.getQtdeCamas());
